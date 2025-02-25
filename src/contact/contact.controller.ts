@@ -8,6 +8,11 @@ export class ContactController {
 
   @Post()
   async handleContactForm(@Body() contactDto: ContactDto) {
-    return await this.contactService.sendEmail(contactDto);
+    try {
+      await this.contactService.sendEmail(contactDto);
+      return { message: 'Message sent successfully' };
+    } catch (error) {
+      return { message: 'Failed to send message', error };
+    }
   }
 }
