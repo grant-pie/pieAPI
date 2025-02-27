@@ -28,29 +28,42 @@ export class MailerService {
   async sendMail(mailerDto: MailerDto) {
     const { name, email, message } = mailerDto;
 
-    // Construct the admin notification email
+    // Construct the admin notification email (plain text)
     const adminSubject = `New message from ${name}`;
     const adminText = `You have received a new message from ${name} (${email}):\n\n${message}`;
 
-    // Construct the user confirmation email
+    // Construct the user confirmation email in HTML format with a footer
     const userSubject = 'Confirmation: Your message has been sent';
-    const userText = `Hi ${name},\n\nThank you for reaching out. Your message has been sent successfully. We will get back to you shortly.\n\nBest regards,\nYour Company Name`;
+    const userHtml = `
+      <html>
+        <body style="font-family: Arial, sans-serif; margin: 0; padding: 0;">
+          <div style="padding: 20px;">
+            <p>Hi ${name},</p>
+            <p>Thank you for reaching out. Your message has been sent successfully. We will get back to you shortly.</p>
+            <p>Best regards,<br>The Southern Cartograper</p>
+          </div>
+          <footer style="background-color: #f1f1f1; padding: 10px; text-align: center;">
+            <img src="https://grant-pie.github.io/southern-cartographer/assets/images/logo.png" alt="Company Logo" style="max-width: 100px;"/>
+          </footer>
+        </body>
+      </html>
+    `;
 
     try {
       // Send email to the admin
       const adminResponse = await this.resend.emails.send({
         from: this.fromEmail,
-        to: this.adminEmail,
+        to: this.adminEmail, // Admin's email address
         subject: adminSubject,
         text: adminText,
       });
-      console.log(email);
-      // Send confirmation email to the user (using the email parameter from the request)
+
+      // Send confirmation email to the user using HTML content
       const userResponse = await this.resend.emails.send({
         from: this.fromEmail,
         to: email,
         subject: userSubject,
-        text: userText,
+        html: userHtml,
       });
 
       return { adminResponse, userResponse };
