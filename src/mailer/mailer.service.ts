@@ -2,7 +2,6 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { Resend } from 'resend';
 import { MailerDto } from './mailer.dto';
 import * as dotenv from 'dotenv';
-import fetch from 'node-fetch'; // Import for HTTP requests
 
 dotenv.config();
 
