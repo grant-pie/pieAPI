@@ -14,4 +14,6 @@ export class MailerDto {
   @IsNotEmpty()
   @MaxLength(500, { message: 'Message is too long. Maximum allowed is 500 characters.' })
   message: string;
+
+  recaptchaToken: string; // Add this field
 }
