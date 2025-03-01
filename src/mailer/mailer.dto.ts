@@ -1,17 +1,20 @@
-// create-mail.dto.ts
-import { IsEmail, IsNotEmpty, IsString, MaxLength } from 'class-validator';
+// src/mailer/mailer.dto.ts
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class MailerDto {
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   name: string;
-
+  
+  @IsNotEmpty()
   @IsEmail()
-  @IsNotEmpty()
   email: string;
-
-  @IsString()
+  
   @IsNotEmpty()
-  @MaxLength(500, { message: 'Message is too long. Maximum allowed is 500 characters.' })
+  @IsString()
   message: string;
+  
+  @IsNotEmpty()
+  @IsString()
+  recaptchaToken: string; // Field for the reCAPTCHA token from the frontend
 }

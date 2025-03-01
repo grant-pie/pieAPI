@@ -4,6 +4,6 @@ import { RecaptchaService } from './recaptcha.service';
 
 @Module({
   providers: [RecaptchaService],
-  exports: [RecaptchaService],
+  exports: [RecaptchaService]
 })
 export class RecaptchaModule {}

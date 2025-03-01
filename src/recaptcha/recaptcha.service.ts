@@ -5,14 +5,19 @@ import { RecaptchaEnterpriseServiceClient } from '@google-cloud/recaptcha-enterp
 @Injectable()
 export class RecaptchaService {
   private client: RecaptchaEnterpriseServiceClient;
-  private projectId: string = 'PieAPI';
-  private siteKey: string = 'YOUR_SITE_KEY';
+  private projectId: string = process.env.RECAPTCHA_PROJECT_ID || ''; // Should come from environment variables
+  private siteKey: string = process.env.RECAPTCHA_SITE_KEY || ''; // Should come from environment variables
 
   constructor() {
-    this.client = new RecaptchaEnterpriseServiceClient();
+    // Initialize the client with Google credentials
+    this.client = new RecaptchaEnterpriseServiceClient({
+      // If using service account key, you can specify it here
+      // keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+    });
   }
 
-  async verifyToken(token: string, action: string = 'submit'): Promise<boolean> {
+  async verify(token: string, action: string = 'submit'): Promise<boolean> {
+    // Renamed from verifyToken to verify to match what the controller expects
     try {
       const projectPath = this.client.projectPath(this.projectId);
       
