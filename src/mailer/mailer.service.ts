@@ -23,34 +23,8 @@ export class MailerService {
 
 
   async sendMail(mailerDto: MailerDto) {
-    const { name, email, message, recaptchaToken} = mailerDto;
+    const { name, email, message} = mailerDto;
 
-    if (!recaptchaToken) {
-      throw new BadRequestException('Missing reCAPTCHA token');
-    }
-
-    // Verify reCAPTCHA with Google
-    const verifyUrl = `https://recaptchaenterprise.googleapis.com/v1/projects/YOUR_PROJECT_ID/assessments?key=YOUR_SECRET_KEY`;
-
-    const recaptchaResponse = await fetch(verifyUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        event: {
-          token: recaptchaToken,
-          siteKey: 'YOUR_SITE_KEY',
-          expectedAction: 'submit',
-        }
-      }),
-    });
-
-    const recaptchaData = await recaptchaResponse.json();
-
-    if (!recaptchaData.tokenProperties.valid) {
-      throw new BadRequestException('Invalid reCAPTCHA token');
-    }
-
-    
     // Email sending logic remains unchanged
     const adminSubject = `New message from ${name}`;
     const adminText = `You have received a new message from ${name} (${email}):\n\n${message}`;
