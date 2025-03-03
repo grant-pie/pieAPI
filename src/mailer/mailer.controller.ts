@@ -16,7 +16,7 @@ export class MailerController {
     // Verify the reCAPTCHA token first
     const isValidToken = await this.recaptchaService.verify(
       mailerDto.recaptchaToken,
-      'submit_contact' // You can specify an action name for your contact form
+      'submit' // You can specify an action name for your contact form
     );
     
     if (!isValidToken) {
