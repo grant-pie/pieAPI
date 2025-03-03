@@ -21,10 +21,12 @@
   },
   "dependencies": {
     "@google-cloud/recaptcha-enterprise": "^5.13.0",
+    "@nestjs/axios": "^4.0.0",
     "@nestjs/common": "^11.0.1",
-    "@nestjs/config": "^4.0.0",
+    "@nestjs/config": "^4.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
+    "axios": "^1.8.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.7",
@@ -32,7 +34,7 @@
     "npx": "^10.2.2",
     "reflect-metadata": "^0.2.2",
     "resend": "^4.1.2",
-    "rxjs": "^7.8.1",
+    "rxjs": "^7.8.2",
     "smtp-tester": "^2.1.0"
   },
   "devDependencies": {
