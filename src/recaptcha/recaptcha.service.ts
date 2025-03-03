@@ -10,10 +10,7 @@ export class RecaptchaService {
 
   constructor() {
     // Initialize the client with Google credentials
-    this.client = new RecaptchaEnterpriseServiceClient({
-      // If using service account key, you can specify it here
-      // keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
-    });
+    this.client = new RecaptchaEnterpriseServiceClient();
   }
 
   async verify(token: string, action: string = 'submit'): Promise<boolean> {
