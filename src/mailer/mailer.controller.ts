@@ -2,7 +2,7 @@
 import { Controller, Post, Body, UnauthorizedException, HttpException, HttpStatus } from '@nestjs/common';
 import { MailerService } from './mailer.service';
 import { MailerDto } from './mailer.dto';
-import { RecaptchaService } from '../recaptcha/recaptcha.service';
+import RecaptchaService from '../recaptcha/recaptcha.service';
 
 @Controller('mail')
 export class MailerController {

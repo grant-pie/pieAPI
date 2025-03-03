@@ -2,11 +2,12 @@
 import { Module } from '@nestjs/common';
 import { MailerController } from './mailer.controller';
 import { MailerService } from './mailer.service';
-import { RecaptchaModule } from '../recaptcha/recaptcha.module'; // Adjust path as needed
+import { RecaptchaModule } from '../recaptcha/recaptcha.module';
 
 @Module({
   imports: [RecaptchaModule],
   controllers: [MailerController],
-  providers: [MailerService]
+  providers: [MailerService],
+  exports: [MailerService],
 })
 export class MailerModule {}

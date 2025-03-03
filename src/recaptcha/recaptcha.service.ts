@@ -1,3 +1,4 @@
+// src/recaptcha/recaptcha.service.ts
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
@@ -57,3 +58,6 @@ export class RecaptchaService {
     }
   }
 }
+
+// Make sure to export the service
+export default RecaptchaService;
