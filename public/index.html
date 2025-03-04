@@ -114,7 +114,7 @@
                         recaptchaToken: token // Add the token to your payload
                     };
                     
-                    const res = await fetch('/mail/send', {
+                    const res = await fetch('southern-cartographer/mail/send', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -123,7 +123,9 @@
                     });
                     
                     const data = await res.json();
-                    
+
+               
+ 
                     if (res.ok) {
                         responseDiv.innerHTML = '<p class="success">Message sent successfully!</p>';
                         form.reset();

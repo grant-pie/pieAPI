@@ -1,4 +1,5 @@
 // src/mailer/mailer.controller.ts
+//Do not use this controller it is for testing only
 import { Controller, Post, Body, UnauthorizedException, HttpException, HttpStatus } from '@nestjs/common';
 import { MailerService } from './mailer.service';
 import { MailerDto } from './mailer.dto';
@@ -13,6 +14,7 @@ export class MailerController {
 
   @Post('send')
   async sendMail(@Body() mailerDto: MailerDto) {
+    /*
     try {
       // Verify the reCAPTCHA token first
       const isValidToken = await this.recaptchaService.verify(
@@ -24,8 +26,8 @@ export class MailerController {
       }
       
       // If verification passed, proceed with sending the email
-      const result = await this.mailerService.sendMail(mailerDto);
-      return { success: true, message: 'Email sent successfully', data: result };
+      //const result = await this.mailerService.sendMail(mailerDto);
+      return { success: true, message: 'Email sent successfully', data: {} };
     } catch (error) {
       if (error instanceof UnauthorizedException) {
         throw error;
@@ -36,6 +38,8 @@ export class MailerController {
         'Failed to send email. Please try again later.',
         HttpStatus.INTERNAL_SERVER_ERROR
       );
-    }
+    }*/
+    return true
   }
+    
 }

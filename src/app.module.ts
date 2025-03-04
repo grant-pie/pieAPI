@@ -7,6 +7,7 @@ import { CustomThrottlerGuard } from './common/guards/custom-throttler.guard';
 import { MailerModule } from './mailer/mailer.module';
 import { RecaptchaModule } from './recaptcha/recaptcha.module';
 import { APP_GUARD } from '@nestjs/core';
+import { SouthernCartographerController } from './systems/southern-cartographer/southern-cartographer.controller';
 // Import other modules as needed
 
 @Module({
@@ -28,6 +29,7 @@ import { APP_GUARD } from '@nestjs/core';
       provide: APP_GUARD,
       useClass: CustomThrottlerGuard,
     },
-  ]
+  ],
+  controllers: [SouthernCartographerController]
 })
 export class AppModule {}
