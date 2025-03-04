@@ -37,14 +37,14 @@ export class SouthernCartographerController {
     
         try {
           // Verify the reCAPTCHA token first
-          /*
+    
           const isValidToken = await this.recaptchaService.verify(
             southernCartographerDto.recaptchaToken
           );
           
           if (!isValidToken) {
             throw new UnauthorizedException('reCAPTCHA verification failed. Please try again.');
-          }*/
+          }
           
           // If verification passed, proceed with sending the email
           const adminMailResponse = await this.mailerService.sendMail(adminTo, adminFrom, adminSubject, adminText);
