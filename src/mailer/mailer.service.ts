@@ -5,7 +5,7 @@ import { Resend } from 'resend';
 import * as sanitizeHtml from 'sanitize-html';
 import * as validator from 'validator';
 import * as dotenv from 'dotenv';
-import { Email } from './email.entity';
+import { Email } from '../email/email.entity';
 
 dotenv.config();
 

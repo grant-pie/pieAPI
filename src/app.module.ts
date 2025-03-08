@@ -1,15 +1,18 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/guards/custom-throttler.guard';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Email } from './mailer/email.entity';
+import { Email } from './email/email.entity';
 import { Service } from './services/service.entity';
+import { User } from './users/user.entity'; 
 import { MailerModule } from './mailer/mailer.module';
 import { RecaptchaModule } from './recaptcha/recaptcha.module';
 import { APP_GUARD } from '@nestjs/core';
-import { SouthernCartographerController } from './services/southern-cartographer/southern-cartographer.controller';
+import { AuthModule } from './auth/auth.module';
+import { EmailModule } from './email/email.module';
 import { ServicesModule } from './services/services.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -21,20 +24,28 @@ import { ServicesModule } from './services/services.module';
       ttl: 60000,
       limit: 10,
     }]),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'user',
-      password: 'pword',
-      database: 'db',
-      entities: [Email, Service],
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get<string>('DB_HOST', 'localhost'),
+        port: configService.get<number>('DB_PORT', 5432),
+        username: configService.get<string>('DB_USERNAME', 'user'),
+        password: configService.get<string>('DB_PASSWORD', 'pword'),
+        database: configService.get<string>('DB_NAME', 'db'),
+        entities: [Email, Service, User],
+        synchronize: configService.get<boolean>('DB_SYNCHRONIZE', true),
+        
+      }),
     }),
     TypeOrmModule.forFeature([Email, Service]),
     RecaptchaModule,
     MailerModule,
     ServicesModule,
+    AuthModule,
+    EmailModule,
+    UsersModule,
   ],
   providers: [
     {
@@ -42,6 +53,5 @@ import { ServicesModule } from './services/services.module';
       useClass: CustomThrottlerGuard,
     },
   ],
-  controllers: [SouthernCartographerController]
 })
 export class AppModule {}
