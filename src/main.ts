@@ -16,12 +16,12 @@ async function bootstrap() {
 
   // Enable CORS
   app.enableCors({
-    origin: process.env.DOMAIN,
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000', process.env.DOMAIN || ''],
   });
 
   // Use the custom 404 filter
   app.useGlobalFilters(new NotFoundFilter());
 
-  await app.listen(process.env.PORT || 3000);
+  await app.listen(process.env.PORT || 3001);
 }
 bootstrap();

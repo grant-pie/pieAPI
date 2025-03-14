@@ -1,11 +1,9 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Resend } from 'resend';
 import * as sanitizeHtml from 'sanitize-html';
 import * as validator from 'validator';
 import * as dotenv from 'dotenv';
-import { Email } from '../email/email.entity';
 
 dotenv.config();
 
@@ -13,10 +11,7 @@ dotenv.config();
 export class MailerService {
   private resend: Resend;
 
-  constructor(
-    @InjectRepository(Email)
-    private emailRepository: Repository<Email>
-  ) {
+  constructor() {
     this.resend = new Resend(process.env.RESEND_API_KEY || '');
   }
 
@@ -31,7 +26,7 @@ export class MailerService {
     return validator.isEmail(email);
   }
 
-  async sendMail(senderIp: string, to: string, from: string, subject: string, text: string, serviceId: number) {
+  async sendMail(to: string, from: string, subject: string, text: string) {
     // Validate and sanitize inputs
     if (!this.isValidEmail(to) || !this.isValidEmail(from)) {
       throw new BadRequestException('Invalid email format');
@@ -48,25 +43,7 @@ export class MailerService {
         subject: sanitizedSubject,
         text: sanitizedText,
       });
-
-      // Create and save email record to database
-      const emailRecord = this.emailRepository.create({
-        senderIp: senderIp,
-        recipient: to.trim(),
-        sender: from.trim(),
-        subject: sanitizedSubject,
-        body: sanitizedText,
-        serviceId: serviceId
-      });
-
-      try {
-        const savedRecord = await this.emailRepository.save(emailRecord);
-        console.log('Email record saved successfully:', savedRecord);
-        return { response, emailRecord: savedRecord };
-      } catch (dbError) {
-        console.error('Error saving email record to database:', dbError);
-        throw new Error(`Failed to save email record: ${dbError.message}`);
-      }
+      return { response, data: {message: 'Email sent succesfully'} };
     } catch (error) {
       console.error('Comprehensive error sending emails:', error);
       throw new Error(`Failed to send emails: ${error.message}`);
